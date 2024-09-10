@@ -1,0 +1,724 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: 10s
+      folder: GitChat
+      interval: 10s
+      rules:
+        - uid: ca895fa9-6359-4385-9637-74e0aac87871
+          title: Alerta de Alto uso da CPU pelo Sistema
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: system_cpu_usage
+                interval: ""
+                intervalMs: 15000
+                legendFormat: Uso da CPU do Sistema
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                settings:
+                    mode: dropNN
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.7
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+          panelId: 1
+          noDataState: NoData
+          execErrState: Error
+          for: 10s
+          annotations:
+            __dashboardUid__: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+            __panelId__: "1"
+          isPaused: false
+        - uid: daddbbb5-3333-42cf-a4cf-0d725bb3b552
+          title: Alerta de Alto uso da CPU pelo Processo
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: process_cpu_usage
+                interval: ""
+                intervalMs: 15000
+                legendFormat: Uso da CPU do Sistema
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                settings:
+                    mode: dropNN
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.4
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+          panelId: 1
+          noDataState: NoData
+          execErrState: Error
+          for: 10s
+          annotations:
+            __dashboardUid__: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+            __panelId__: "1"
+          isPaused: false
+        - uid: c67c1c16-2b3c-46ea-8c89-b34b196a2154
+          title: Alerta de Alto uso da Memória Heap
+          condition: D
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: sum(jvm_memory_used_bytes{area="heap"})/sum(jvm_memory_max_bytes{area="heap"})
+                interval: ""
+                intervalMs: 15000
+                legendFormat: Memória Usada pela Aplicação
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: C
+                settings:
+                    mode: dropNN
+                type: reduce
+            - refId: D
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.7
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - D
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: C
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: D
+                type: threshold
+          dashboardUid: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+          panelId: 12
+          noDataState: NoData
+          execErrState: Error
+          for: 10s
+          annotations:
+            __dashboardUid__: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+            __panelId__: "12"
+          isPaused: false
+        - uid: f0e721d5-0b6f-455e-9859-e3f844bdba88
+          title: Alerta de Alto uso da Memória Non-Heap
+          condition: D
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: sum(jvm_memory_used_bytes{area="nonheap"})/sum(jvm_memory_max_bytes{area="nonheap"})
+                interval: ""
+                intervalMs: 15000
+                legendFormat: Memória Usada pela Aplicação
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: C
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: C
+                settings:
+                    mode: dropNN
+                type: reduce
+            - refId: D
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.6
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - D
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: C
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: D
+                type: threshold
+          dashboardUid: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+          panelId: 12
+          noDataState: NoData
+          execErrState: Error
+          for: 10s
+          annotations:
+            __dashboardUid__: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+            __panelId__: "12"
+          isPaused: false
+        - uid: d4351a63-577f-413c-98fd-049a540cfd8c
+          title: Alerta de Erros Excessivos (Logback)
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: rate(logback_events_total{level="error"}[1m])
+                interval: ""
+                intervalMs: 15000
+                legendFormat: error
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                settings:
+                    mode: dropNN
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+          panelId: 10
+          noDataState: NoData
+          execErrState: Error
+          for: 10s
+          annotations:
+            __dashboardUid__: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+            __panelId__: "10"
+          isPaused: false
+        - uid: e2698683-bac8-4de0-a4f3-63be5e73e640
+          title: Alerta de Warnings Excessivos (Logback)
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: rate(logback_events_total{level="warn"}[1m])
+                interval: ""
+                intervalMs: 15000
+                legendFormat: warn
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+          panelId: 11
+          noDataState: NoData
+          execErrState: Error
+          for: 10s
+          annotations:
+            __dashboardUid__: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+            __panelId__: "11"
+          isPaused: false
+        - uid: d3d50012-db72-4fe9-8ba3-30ffda672e68
+          title: Contagem de Requisições
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: rate(http_server_requests_seconds_count{uri!~".*actuator.*"}[1m])
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{method}} [{{status}}] - {{uri}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.1
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+          panelId: 15
+          noDataState: NoData
+          execErrState: Error
+          for: 10s
+          annotations:
+            __dashboardUid__: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+            __panelId__: "15"
+          isPaused: false
+        - uid: ebffc2ac-1386-4f07-8173-06da800a366c
+          title: Tempo de Resposta
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: rate(http_server_requests_seconds_sum{uri!~".*actuator.*"}[1m]) / rate(http_server_requests_seconds_count{uri!~".*actuator.*"}[1m])
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{method}} [{{status}}] - {{uri}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                settings:
+                    mode: replaceNN
+                    replaceWithValue: 0
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 2
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+          panelId: 16
+          noDataState: NoData
+          execErrState: Error
+          for: 10s
+          annotations:
+            __dashboardUid__: a41a318a-8ea6-4a3b-a38d-34ab50afd3a6
+            __panelId__: "16"
+          isPaused: false

@@ -1,0 +1,20 @@
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%cyan(%d{HH:mm:ss.SSS}) %highlight(%-24.-24thread) %green(%-10.10X{jda.shard}) %magenta(%-15.-15logger{0}) [  %highlight(%-6level)] %msg%n</pattern>
+        </encoder>
+    </appender>
+    <springProperty scope="context" name="errorUrl" source="googlechat.webhook.logback.url"/>
+    <appender name="WEBHOOK" class="com.trf5.gitchatbridge.logs.config.WebhookAppender">
+        <webhook class="com.trf5.gitchatbridge.comum.service.GoogleChatWebhookService"/>
+        <errorUrl>${errorUrl}</errorUrl>
+        <encoder>
+            <pattern>%d{HH:mm:ss} [ %-6level]%n%logger%n%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="WEBHOOK" />
+    </root>
+</configuration>

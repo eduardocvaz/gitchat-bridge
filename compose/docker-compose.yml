@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+  gitchat-bridge:
+    image: eduardocvaz/gitchat-bridge:latest
+    container_name: gitchat-bridge
+    ports:
+      - '8080:8080'
+    environment:
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      URL_WEBHOOK_GITLAB: ${URL_WEBHOOK_GITLAB}
+      URL_WEBHOOK_LOGBACK: ${URL_WEBHOOK_LOGBACK}
+      
+  database:
+    image: 'postgres:15.2'
+    container_name: postgresql
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      
+  prometheus:
+    image: prom/prometheus:v2.44.0
+    container_name: prometheus-v1
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:9.5.2
+    container_name: grafana-v1
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+#      Descomentar para importar os alertas definidos em /grafana/provisioning/alerting/alerts.yaml
+#      - ./grafana/provisioning/alerting:/etc/grafana/provisioning/alerting
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "fff09ee9-3641-46ca-8fd1-9dfdffffd58a",
+		"name": "GitChat Grafana Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15846199"
+	},
+	"item": [
+		{
+			"name": "Teste de Carga da CPU",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/consume-cpu?seconds=10",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"consume-cpu"
+					],
+					"query": [
+						{
+							"key": "seconds",
+							"value": "10",
+							"description": "Duração do teste em segundos."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consumo de Memória Heap",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/consume-memory-heap?megabytes=10",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"consume-memory-heap"
+					],
+					"query": [
+						{
+							"key": "megabytes",
+							"value": "10",
+							"description": "Quantidade de memória (em MB) a ser consumida."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liberação de Memória Heap",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/release-memory",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"release-memory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consumo de Memória Non-Heap",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/consume-memory-nonheap?numClassesToLoad=1000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"consume-memory-nonheap"
+					],
+					"query": [
+						{
+							"key": "numClassesToLoad",
+							"value": "1000",
+							"description": " Número de classes a serem carregadas."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simulação de Alerta de Erros",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/trigger-errors-alert?errorsPerMinute=60&durationMinutes=1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"trigger-errors-alert"
+					],
+					"query": [
+						{
+							"key": "errorsPerMinute",
+							"value": "60",
+							"description": "(opcional, padrão: 60): Número de erros por minuto."
+						},
+						{
+							"key": "durationMinutes",
+							"value": "1",
+							"description": "(opcional, padrão: 5): Duração da simulação em minutos."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simulação de Alerta de Avisos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/trigger-warnings-alert?warningsPerMinute=60&durationMinutes=1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"trigger-warnings-alert"
+					],
+					"query": [
+						{
+							"key": "warningsPerMinute",
+							"value": "60",
+							"description": " (opcional, padrão: 60): Número de avisos por minuto."
+						},
+						{
+							"key": "durationMinutes",
+							"value": "1",
+							"description": " (opcional, padrão: 5): Duração da simulação em minutos."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simular Múltiplas Requisições",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Número de requisições a serem feitas",
+							"var numRequisicoes = 100;",
+							"",
+							"var delay = 1000;",
+							"",
+							"",
+							"",
+							"// Loop para enviar as requisições",
+							"for (var i = 0; i < numRequisicoes; i++) {",
+							"    pm.sendRequest({",
+							"        url: pm.request.url, // Usa a mesma URL da requisição atual",
+							"        method: 'GET',",
+							"        header: pm.request.headers // Usa os mesmos headers da requisição atual",
+							"    }, function (err, res) {",
+							"        // Verifica o status da resposta",
+							"        pm.test(\"Status 200 na requisição \" + (i + 1), function () {",
+							"            pm.expect(res.code).to.be.oneOf([200]);",
+							"        });",
+							"    });",
+							"    setTimeout(function() {pm.setNextRequest(pm.request.name)}, delay);",
+							"    ",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/endpoint-sobrecarregado",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"endpoint-sobrecarregado"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simular Requisição Lenta",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
